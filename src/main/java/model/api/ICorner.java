@@ -3,6 +3,6 @@ package model.api;
 import java.util.List;
 
 public interface ICorner {
-    List<ICorner> getAdjacents();
+    List<IEdge> getEdges();
     String getName();
 }
