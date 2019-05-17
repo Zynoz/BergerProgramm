@@ -1,9 +1,11 @@
 package ui;
 
+import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import model.GraphManagment;
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -13,7 +15,7 @@ public class RootBorderPane extends BorderPane {
 
     private MenuBar menuBar;
     private Menu matrixMenu, file, settings;
-    private MenuItem createMatrix;
+    private MenuItem createMatrix, exit;
     private MatrixGrid matrixGrid;
 
     private GraphManagment gm;
@@ -26,18 +28,26 @@ public class RootBorderPane extends BorderPane {
 
     private void init() {
         LOGGER.fine("initializing...");
+
         menuBar = new MenuBar();
         matrixMenu = new Menu("Matrix");
         file = new Menu("File");
         settings = new Menu("Settings");
+
         createMatrix = new MenuItem("Create new Matrix");
+        exit = new MenuItem("Exit");
+
         matrixGrid = new MatrixGrid(3);
     }
 
     private void add() {
         LOGGER.info("adding...");
+
         matrixMenu.getItems().add(createMatrix);
+        file.getItems().add(exit);
+
         menuBar.getMenus().addAll(file, matrixMenu, settings);
+
         this.setTop(menuBar);
         setCenter(matrixGrid);
     }
@@ -46,6 +56,7 @@ public class RootBorderPane extends BorderPane {
         //todo add user input
         LOGGER.fine("listening...");
         createMatrix.setOnAction(event -> newMatrix());
+        exit.setOnAction(event -> Platform.exit());
     }
 
     private void newMatrix() {
