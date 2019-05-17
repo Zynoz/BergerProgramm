@@ -53,6 +53,7 @@ public class Graph implements IGraph {
 
     }
 
+    //todo fix this
     @Override
     public List<ICorner> getAdajacentCorners(ICorner corner) {
         List<ICorner> adjacents = new ArrayList<>();
@@ -60,6 +61,7 @@ public class Graph implements IGraph {
         return adjacents;
     }
 
+    //todo fix this
     @Override
     public List<IEdge> getAdjacentEdges(ICorner corner) {
         return corner.getEdges();

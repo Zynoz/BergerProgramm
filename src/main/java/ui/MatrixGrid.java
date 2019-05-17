@@ -32,7 +32,7 @@ public class MatrixGrid extends GridPane {
         int column = size;
         for (int i = 0; i < column; i++) {
             for (int j = 0; j < row; j++) {
-                TextField tf = new TextField(String.valueOf(i));
+                TextField tf = new TextField();
                 this.add(tf, i, j);
                 System.out.println("i: " + i + "; j: " + j);
             }
