@@ -4,14 +4,14 @@ import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import model.GraphManagment;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.lang.management.PlatformLoggingMXBean;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 public class RootBorderPane extends BorderPane {
 
-    private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private final Logger logger = LogManager.getLogger(RootBorderPane.class);
 
     private MenuBar menuBar;
     private Menu matrixMenu, file, settings;
@@ -21,13 +21,14 @@ public class RootBorderPane extends BorderPane {
     private GraphManagment gm;
 
     public RootBorderPane() {
+
         init();
         add();
         listeners();
     }
 
     private void init() {
-        LOGGER.fine("initializing...");
+        logger.info("initializing...");
 
         menuBar = new MenuBar();
         matrixMenu = new Menu("Matrix");
@@ -41,7 +42,7 @@ public class RootBorderPane extends BorderPane {
     }
 
     private void add() {
-        LOGGER.info("adding...");
+        logger.info("adding...");
 
         matrixMenu.getItems().add(createMatrix);
         file.getItems().add(exit);
@@ -53,8 +54,7 @@ public class RootBorderPane extends BorderPane {
     }
 
     private void listeners() {
-        //todo add user input
-        LOGGER.fine("listening...");
+        logger.info("listening...");
         createMatrix.setOnAction(event -> newMatrix());
         exit.setOnAction(event -> Platform.exit());
     }
@@ -68,21 +68,21 @@ public class RootBorderPane extends BorderPane {
         Optional<String> input = textInputDialog.showAndWait();
         if (input.isPresent()) {
             try {
-                size = Integer.parseInt(textInputDialog.showAndWait().get());
+                size = Integer.parseInt(input.get());
             } catch (NumberFormatException nfe) {
-                LOGGER.warning("size not valid");
+                logger.error("Not a size: " + input.get());
                 Main.createAlert(Alert.AlertType.ERROR, "That ain't a size!");
                 size = 3;
             }
         } else {
-            LOGGER.warning("no input");
+            logger.error("no input");
             Main.createAlert(Alert.AlertType.ERROR, "Enter a size!");
             size = 3;
         }
 
-        LOGGER.fine("creating new MatrixGrid with size: " + size);
+        logger.info("creating new MatrixGrid with size: " + size);
 
-        MatrixGrid mg = new MatrixGrid(size);
-        setCenter(mg);
+        matrixGrid = new MatrixGrid(size);
+        setCenter(matrixGrid);
     }
 }

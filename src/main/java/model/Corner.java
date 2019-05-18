@@ -1,32 +1,31 @@
 package model;
 
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableList;
 import model.api.ICorner;
 import model.api.IEdge;
 
-import java.util.Collections;
 import java.util.List;
 
 public class Corner implements ICorner {
 
-    private SimpleListProperty<List<IEdge>> edges = new SimpleListProperty<>();
-    private SimpleStringProperty name = new SimpleStringProperty();
+    private List<IEdge> edges;
+    private String name;
 
     public Corner(String name) {
-        this.name.set(name);
+        this.name = name;
     }
 
+    @Override
     public void addEdge(IEdge edge) {
-        this.edges.get().add(Collections.singletonList(edge));
+        this.edges.add(edge);
     }
 
-    public ObservableList<List<IEdge>> getEdges() {
-        return edges.get();
+    @Override
+    public List<IEdge> getEdges() {
+        return edges;
     }
 
+    @Override
     public String getName() {
-        return name.get();
+        return name;
     }
 }

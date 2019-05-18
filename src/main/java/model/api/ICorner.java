@@ -1,10 +1,9 @@
 package model.api;
 
-import javafx.collections.ObservableList;
-
 import java.util.List;
 
 public interface ICorner {
-    ObservableList<List<IEdge>> getEdges();
+    List<IEdge> getEdges();
+    void addEdge(IEdge edge);
     String getName();
 }
