@@ -4,22 +4,19 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Main extends Application {
 
-    private static final Logger LOGGER = Logger.getLogger("");
-
-    private Stage primaryStage;
+    private final Logger logger = LogManager.getLogger(Main.class);
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
+        logger.info("starting application...");
         RootBorderPane root = new RootBorderPane();
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Hello Graphs");
         primaryStage.setScene(new Scene(root, 500, 500));
-        LOGGER.fine("");
         primaryStage.show();
     }
 

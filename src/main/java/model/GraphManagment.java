@@ -4,7 +4,6 @@ public class GraphManagment {
 
     private Graph graph;
 
-
     public GraphManagment() {
 
     }

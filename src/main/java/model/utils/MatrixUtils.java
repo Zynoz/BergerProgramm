@@ -1,9 +1,7 @@
 package model.utils;
 
-import javafx.scene.control.Alert;
 import model.Matrix;
 import model.exception.MatrixException;
-import ui.Main;
 
 import java.util.List;
 
@@ -22,13 +20,27 @@ public class MatrixUtils {
     //todo implement
     public static Matrix convertToMatrix(List<Integer> matrixList) throws MatrixException {
         int size = (int) Math.sqrt(matrixList.size());
-        if (!isValidMatrix(matrixList)) {
-            throw new MatrixException("Entered Matrix is not valid!");
-        } else if (!isValidSize(size)) {
+        int[][] matrix = new int[size][size];
+        if (!isValidMatrix(matrixList) && !isValidSize(size)) {
             throw new MatrixException("Entered Matrix is not valid!");
         }
-        Matrix matrix = new Matrix();
+        Matrix m = new Matrix(matrix);
 
-        return new Matrix();
+        return m;
+    }
+
+    public static Matrix multiplyMatrices(Matrix m1, Matrix m2) {
+        int m1Size = m1.getSize();
+        int m2Size = m2.getSize();
+        int[][] product = new int[m1Size][m2Size];
+
+        for (int i = 0; i < m1Size; i++) {
+            for (int j = 0; j < m2Size; j++) {
+
+            }
+
+        }
+
+        return new Matrix(product);
     }
 }

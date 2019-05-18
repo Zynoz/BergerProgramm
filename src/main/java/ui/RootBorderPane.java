@@ -21,14 +21,13 @@ public class RootBorderPane extends BorderPane {
     private GraphManagment gm;
 
     public RootBorderPane() {
-
         init();
         add();
         listeners();
     }
 
     private void init() {
-        logger.info("initializing...");
+        logger.info("initializing RootBorderPane...");
 
         menuBar = new MenuBar();
         matrixMenu = new Menu("Matrix");
@@ -42,7 +41,7 @@ public class RootBorderPane extends BorderPane {
     }
 
     private void add() {
-        logger.info("adding...");
+        logger.info("adding RootBorderPane objects...");
 
         matrixMenu.getItems().add(createMatrix);
         file.getItems().add(exit);
@@ -54,7 +53,7 @@ public class RootBorderPane extends BorderPane {
     }
 
     private void listeners() {
-        logger.info("listening...");
+        logger.info("adding RootBorderPane listeners...");
         createMatrix.setOnAction(event -> newMatrix());
         exit.setOnAction(event -> Platform.exit());
     }
