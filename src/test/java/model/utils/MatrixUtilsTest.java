@@ -1,7 +1,5 @@
 package model.utils;
 
-import static org.junit.Assert.*;
-
 public class MatrixUtilsTest {
 
     @org.junit.Test
