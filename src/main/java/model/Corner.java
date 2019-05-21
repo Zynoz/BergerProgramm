@@ -28,4 +28,11 @@ public class Corner implements ICorner {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "Corner{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

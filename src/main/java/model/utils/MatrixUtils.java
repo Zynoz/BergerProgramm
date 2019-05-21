@@ -1,15 +1,29 @@
 package model.utils;
 
 import model.Matrix;
-import model.exception.MatrixException;
-
-import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MatrixUtils {
 
-    //todo implement
-    public static boolean isValidMatrix(List<Integer> matrix) {
+    private static final Logger logger = LogManager.getLogger(MatrixUtils.class);
 
+    //todo implement
+    public static boolean isValidMatrix(final Matrix matrix) {
+        int[][] m = matrix.getGrid();
+        for (int dia = 0; dia < m.length; dia++) {
+            if (m[dia][dia] != 0) {
+                return false;
+            }
+            for (int j = 0; j < m[dia].length; j++) {
+                if (m[dia][j] != m[j][dia]) {
+                    return false;
+                }
+                if (m[dia][j] == -1 || m[j][dia] == -1) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -17,30 +31,13 @@ public class MatrixUtils {
         return size <= 15 && size >= 2;
     }
 
-    //todo implement
-    public static Matrix convertToMatrix(List<Integer> matrixList) throws MatrixException {
-        int size = (int) Math.sqrt(matrixList.size());
-        int[][] matrix = new int[size][size];
-        if (!isValidMatrix(matrixList) && !isValidSize(size)) {
-            throw new MatrixException("Entered Matrix is not valid!");
-        }
-        Matrix m = new Matrix(matrix);
-
-        return m;
-    }
-
-    public static Matrix multiplyMatrices(Matrix m1, Matrix m2) {
-        int m1Size = m1.getSize();
-        int m2Size = m2.getSize();
-        int[][] product = new int[m1Size][m2Size];
-
-        for (int i = 0; i < m1Size; i++) {
-            for (int j = 0; j < m2Size; j++) {
-
+    public static void print(Matrix m) {
+        for (int i = 1; i < m.getGrid().length; i++) {
+            StringBuilder sb = new StringBuilder();
+            for (int j = 1; j < m.getGrid()[i].length; j++) {
+                sb.append(m.getGrid()[j][i] + " ");
             }
-
+            logger.info(sb.toString());
         }
-
-        return new Matrix(product);
     }
 }

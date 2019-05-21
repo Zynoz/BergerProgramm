@@ -91,4 +91,13 @@ public class Graph implements IGraph {
         }
         return max;
     }
+
+    @Override
+    public String toString() {
+        return "Graph{" +
+                "name='" + name + '\'' +
+                ", corners=" + corners +
+                ", edges=" + edges +
+                '}';
+    }
 }

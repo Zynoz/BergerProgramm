@@ -1,21 +1,14 @@
 package model;
 
 public class Matrix {
-    private int[][] matrix;
+    private int[][] grid;
 
-    public Matrix(int[][] matrix) {
-        this.matrix = matrix;
+    public Matrix(int[][] grid) {
+        this.grid = grid;
     }
 
-    public void setMatrix(int[][] matrix) {
-        this.matrix = matrix;
-    }
 
-    public int[][] getMatrix() {
-        return matrix;
-    }
-
-    public int getSize() {
-        return 1;
+    public int[][] getGrid() {
+        return grid;
     }
 }

@@ -4,6 +4,8 @@ import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import model.GraphManagment;
+import model.Matrix;
+import model.utils.MatrixUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,8 +17,9 @@ public class RootBorderPane extends BorderPane {
 
     private MenuBar menuBar;
     private Menu matrixMenu, file, settings;
-    private MenuItem createMatrix, exit;
+    private MenuItem createMatrix, printMatrix, exit;
     private MatrixGrid matrixGrid;
+    private Buttons buttons;
 
     private GraphManagment gm;
 
@@ -35,20 +38,25 @@ public class RootBorderPane extends BorderPane {
         settings = new Menu("Settings");
 
         createMatrix = new MenuItem("Create new Matrix");
+        printMatrix = new MenuItem("printMatrix");
         exit = new MenuItem("Exit");
 
         matrixGrid = new MatrixGrid(3);
+        buttons = new Buttons(this);
+
+        gm = new GraphManagment();
     }
 
     private void add() {
         logger.info("adding RootBorderPane objects...");
 
-        matrixMenu.getItems().add(createMatrix);
+        matrixMenu.getItems().addAll(createMatrix, printMatrix);
         file.getItems().add(exit);
 
         menuBar.getMenus().addAll(file, matrixMenu, settings);
 
         this.setTop(menuBar);
+        this.setRight(buttons);
         setCenter(matrixGrid);
     }
 
@@ -56,6 +64,7 @@ public class RootBorderPane extends BorderPane {
         logger.info("adding RootBorderPane listeners...");
         createMatrix.setOnAction(event -> newMatrix());
         exit.setOnAction(event -> Platform.exit());
+        printMatrix.setOnAction(event -> MatrixUtils.print(matrixGrid.getMatrix()));
     }
 
     private void newMatrix() {
@@ -68,20 +77,25 @@ public class RootBorderPane extends BorderPane {
         if (input.isPresent()) {
             try {
                 size = Integer.parseInt(input.get());
+                logger.info("creating new MatrixGrid with size: " + size);
+
+                matrixGrid = new MatrixGrid(size);
+                setCenter(matrixGrid);
             } catch (NumberFormatException nfe) {
                 logger.error("Not a size: " + input.get());
                 Main.createAlert(Alert.AlertType.ERROR, "That ain't a size!");
-                size = 3;
             }
         } else {
             logger.error("no input");
             Main.createAlert(Alert.AlertType.ERROR, "Enter a size!");
-            size = 3;
         }
+    }
 
-        logger.info("creating new MatrixGrid with size: " + size);
+    public GraphManagment getGm() {
+        return gm;
+    }
 
-        matrixGrid = new MatrixGrid(size);
-        setCenter(matrixGrid);
+    public MatrixGrid getMatrixGrid() {
+        return matrixGrid;
     }
 }
