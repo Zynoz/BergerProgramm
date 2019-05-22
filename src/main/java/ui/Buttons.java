@@ -2,6 +2,7 @@ package ui;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import model.exception.MatrixException;
 
 public class Buttons extends HBox {
     private Button apply;
@@ -29,6 +30,16 @@ public class Buttons extends HBox {
     }
 
     private void listeners() {
-        apply.setOnAction(event -> rootBorderPane.getGm().createGraph(rootBorderPane.getMatrixGrid().getMatrix()));
+        apply.setOnAction(event -> apply());
     }
+
+    private void apply() {
+        try {
+        rootBorderPane.getGm().createGraph(rootBorderPane.getMatrixGrid().getMatrix());
+
+        } catch (MatrixException me) {
+            Main.createAlert(Alert.AlertType.ERROR, me.getMessage());
+        }
+    }
+
 }
