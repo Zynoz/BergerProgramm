@@ -4,6 +4,7 @@ import model.api.ICorner;
 import model.api.IEdge;
 import model.api.IGraph;
 import model.exception.GraphException;
+import model.utils.UniqueList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,21 +12,22 @@ import java.util.List;
 public class Graph implements IGraph {
 
     private String name;
-    private List<ICorner> corners;
+    private UniqueList<ICorner> corners;
     private List<IEdge> edges;
 
     public Graph(String name) {
         this.name = name;
     }
 
-    public Graph(String name, List<ICorner> corners, List<IEdge> edges) {
+    public Graph(String name, UniqueList<ICorner> corners, List<IEdge> edges) {
         this.name = name;
         this.corners = corners;
         this.edges = edges;
     }
 
     public List<ICorner> getCoreners() {
-        return corners;
+//        return corners;
+        return null;
     }
 
     public List<IEdge> getEdges() {
@@ -33,11 +35,11 @@ public class Graph implements IGraph {
     }
 
     public void addCorner(ICorner corner) {
-        if (corners.contains(corner)) {
-            throw new GraphException("Corner " + corner + " already in Graph!");
-        } else {
-            corners.add(corner);
-        }
+//        if (corners.contains(corner)) {
+//            throw new GraphException("Corner " + corner + " already in Graph!");
+//        } else {
+//            corners.add(corner);
+//        }
 
     }
 
@@ -56,9 +58,10 @@ public class Graph implements IGraph {
     //todo fix this
     @Override
     public List<ICorner> getAdajacentCorners(ICorner corner) {
-        List<ICorner> adjacents = new ArrayList<>();
-        corners.stream().filter(c -> c == corner).forEach(c -> c.getEdges().forEach(e -> adjacents.addAll(e.getCorners())));
-        return adjacents;
+//        List<ICorner> adjacents = new ArrayList<>();
+//        corners.stream().filter(c -> c == corner).forEach(c -> c.getEdges().forEach(e -> adjacents.addAll(e.getCorners())));
+//        return adjacents;
+        return null;
     }
 
     //todo fix this
@@ -79,7 +82,7 @@ public class Graph implements IGraph {
 
     public void reset() {
         name = "";
-        corners = new ArrayList<>();
+//        corners = new ArrayList<>();
         edges = new ArrayList<>();
     }
 

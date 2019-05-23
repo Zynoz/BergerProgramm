@@ -4,11 +4,11 @@ import model.api.ICorner;
 import model.api.IEdge;
 import model.exception.MatrixException;
 import model.utils.MatrixUtils;
+import model.utils.UniqueList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GraphManagment {
 
@@ -20,25 +20,31 @@ public class GraphManagment {
 
     }
 
-    public void createGraph(final Matrix matrix) throws MatrixException{
+    public void createGraph(String name, final Matrix matrix) throws MatrixException{
         if (!MatrixUtils.isValidMatrix(matrix)) {
             throw new MatrixException("Matrix not valid!");
         }
         int[][] m = matrix.getGrid();
-        List<ICorner> corners = new ArrayList<>(m.length);
+
+        List<ICorner> corners = new ArrayList<>();
         List<IEdge> edges = new ArrayList<>();
+
+        UniqueList uniqueCorners = new UniqueList();
 
         for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < m[i].length; j++) {
-                corners.add(new Corner(i + ":" + j));
-                if (m[j][i] == m[j][i] && m[j][i] == 1) {
-                    edges.add(new Edge(i + ":" + j, corners.get(i), corners.get(j)));
-                }
+                ICorner corner = new Corner(1 + ":" + j);
+                System.out.println(corner);
+//                addEdgeds(edges, i, j);
             }
         }
 
-        Graph graph = new Graph("Test", corners, edges);
-        this.graphs.add(graph);
-        logger.info(graph.toString());
+//        Graph graph = new Graph(name, corners, edges);
+//        this.graphs.add(graph);
+//        logger.info(graph.toString());
     }
+
+//    private void addEdgeds(final Set<IEdge> edges, final Set<ICorner> corners, final int i, final int j) {
+//        IEdge edge = new Edge(i + ":" + j, corners.);
+//    }
 }

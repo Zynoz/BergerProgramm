@@ -6,6 +6,10 @@ import org.apache.logging.log4j.Logger;
 
 public class MatrixUtils {
 
+    private MatrixUtils() {
+
+    }
+
     private static final Logger logger = LogManager.getLogger(MatrixUtils.class);
 
     //todo implement
@@ -35,7 +39,7 @@ public class MatrixUtils {
         for (int i = 1; i < m.getGrid().length; i++) {
             StringBuilder sb = new StringBuilder();
             for (int j = 1; j < m.getGrid()[i].length; j++) {
-                sb.append(m.getGrid()[j][i] + " ");
+                sb.append(m.getGrid()[j][i]).append(" ");
             }
             logger.info(sb.toString());
         }

@@ -2,7 +2,7 @@ package model.api;
 
 import java.util.List;
 
-public interface IEdge {
+public interface IEdge extends ICE {
     List<ICorner> getCorners();
     void setCorners(List<ICorner> iCorners);
     String getName();

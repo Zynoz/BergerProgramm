@@ -35,4 +35,15 @@ public class Corner implements ICorner {
                 "name='" + name + '\'' +
                 '}';
     }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Corner object = (Corner) obj;
+        return name.hashCode() != object.name.hashCode();
+    }
 }

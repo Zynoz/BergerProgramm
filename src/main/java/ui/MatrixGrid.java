@@ -2,9 +2,7 @@ package ui;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import model.GraphManagment;
 import model.Matrix;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +15,7 @@ public class MatrixGrid extends GridPane {
     private final Logger logger = LogManager.getLogger(MatrixGrid.class);
 
     private int size;
-    private List<TextField> textFields = new ArrayList<>();
+    private List<GridButton> buttons = new ArrayList<>();
     private static final List<Label> headersX = new ArrayList<>();
     private static final List<Label> headersY = new ArrayList<>();
 
@@ -57,6 +55,14 @@ public class MatrixGrid extends GridPane {
         headersY.add(new Label("O"));
     }
 
+    public static List<Label> getHeadersX() {
+        return headersX;
+    }
+
+    public static List<Label> getHeadersY() {
+        return headersY;
+    }
+
     public MatrixGrid(int size) {
         if (size > 15 || size < 2) {
             logger.warn("Size must be between 1 and 16!");
@@ -68,7 +74,7 @@ public class MatrixGrid extends GridPane {
         }
     }
 
-    //todo add "header" (maybe dynamic([A,B,C,D,...], [1,2,3,4,...])?
+    //todo make header dynamic(a,b,c; 1,2,3)
     private void init() {
         logger.info("initializing...");
         this.setHgap(10);
@@ -78,9 +84,14 @@ public class MatrixGrid extends GridPane {
         int column = size;
         for (int i = 1; i < column; i++) {
             for (int j = 1; j < row; j++) {
-                TextField tf = new TextField();
-                textFields.add(tf);
-                this.add(tf, i, j);
+                GridButton gb;
+                if (i == j) {
+                    gb = new GridButton(false);
+                } else {
+                    gb = new GridButton();
+                }
+                buttons.add(gb);
+                this.add(gb, i, j);
             }
         }
     }
@@ -103,7 +114,7 @@ public class MatrixGrid extends GridPane {
         for (int i = 1; i < row; i++) {
             for (int j = 1; j < column; j++) {
                 try {
-                    matrix[i][j] = Integer.parseInt(textFields.get(cursor).getText());
+                    matrix[i][j] = Integer.parseInt(buttons.get(cursor).getText());
                 } catch (NumberFormatException nfe) {
                     matrix[i][j] = -1;
                 }
@@ -111,5 +122,11 @@ public class MatrixGrid extends GridPane {
             }
         }
         return new Matrix(matrix);
+    }
+
+    public void invert() {
+        for (GridButton button : buttons) {
+            button.invert();
+        }
     }
 }
