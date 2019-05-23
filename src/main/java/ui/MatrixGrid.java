@@ -93,12 +93,12 @@ public class MatrixGrid extends GridPane {
         headersY1.add(new Label("15"));
     }
 
-    public static List<Label> getHeadersX() {
-        return headersX;
+    public static List<Label> getXHeader(boolean header) {
+        return header ? headersX1 : headersX;
     }
 
-    public static List<Label> getHeadersY() {
-        return headersY;
+    public static List<Label> getYHeader(boolean header) {
+        return header ? headersY1 : headersY;
     }
 
     public MatrixGrid(int size, boolean header) {
@@ -113,7 +113,6 @@ public class MatrixGrid extends GridPane {
         }
     }
 
-    //todo make header dynamic(a,b,c; 1,2,3)
     private void init() {
         logger.info("initializing...");
         this.setHgap(10);
@@ -125,7 +124,7 @@ public class MatrixGrid extends GridPane {
             for (int j = 1; j < row; j++) {
                 GridButton gb;
                 if (i == j) {
-                    gb = new GridButton(false);
+                    gb = new GridButton(true);
                 } else {
                     gb = new GridButton();
                 }

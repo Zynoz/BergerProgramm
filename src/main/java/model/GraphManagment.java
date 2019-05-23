@@ -1,14 +1,14 @@
 package model;
 
-import model.api.ICorner;
-import model.api.IEdge;
+import model.api.INode;
 import model.exception.MatrixException;
 import model.utils.MatrixUtils;
-import model.utils.UniqueList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ui.MatrixGrid;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GraphManagment {
 
@@ -25,26 +25,39 @@ public class GraphManagment {
             throw new MatrixException("Matrix not valid!");
         }
         int[][] m = matrix.getGrid();
-
-        List<ICorner> corners = new ArrayList<>();
-        List<IEdge> edges = new ArrayList<>();
-
-        UniqueList uniqueCorners = new UniqueList();
+        List<INode> corners = new ArrayList<>();
 
         for (int i = 0; i < m.length; i++) {
+            if (i == 0) continue;
+            Node corner = new Node(MatrixGrid.getXHeader(false).get(i).getText());
+            corners.add(corner);
             for (int j = 0; j < m[i].length; j++) {
-                ICorner corner = new Corner(1 + ":" + j);
-                System.out.println(corner);
-//                addEdgeds(edges, i, j);
+                if (j == 0) continue;
+                logger.info(i + " " + j);
+                if (m[i][j] == 1) {
+                    logger.info("edge at " + i + " " + j);
+                    Edge edge = new Edge(i + " : " + j, corner);
+                    corner.addEdge(edge);
+                }
             }
         }
 
-//        Graph graph = new Graph(name, corners, edges);
-//        this.graphs.add(graph);
-//        logger.info(graph.toString());
+        graph = new Graph(name, corners);
     }
 
-//    private void addEdgeds(final Set<IEdge> edges, final Set<ICorner> corners, final int i, final int j) {
-//        IEdge edge = new Edge(i + ":" + j, corners.);
-//    }
+    public int calculateRadius() {
+        return 0;
+    }
+
+    public int calculateDiameter() {
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "GraphManagment{" +
+                "logger=" + logger +
+                ", graph=" + graph +
+                '}';
+    }
 }

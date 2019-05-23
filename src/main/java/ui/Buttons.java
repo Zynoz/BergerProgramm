@@ -52,8 +52,9 @@ public class Buttons extends VBox {
 
     private void apply() {
         try {
-        rootBorderPane.getGraphManagment().createGraph(name.getText(), rootBorderPane.getMatrixGrid().getMatrix());
-        logger.info("matrix is valid");
+            rootBorderPane.getGraphManagment().createGraph(name.getText(), rootBorderPane.getMatrixGrid().getMatrix());
+            logger.info(rootBorderPane.getGraphManagment().toString());
+            logger.info("matrix is valid");
         } catch (MatrixException me) {
             Main.createAlert(Alert.AlertType.ERROR, me.getMessage());
         }

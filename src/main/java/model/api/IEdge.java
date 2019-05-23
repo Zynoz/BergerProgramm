@@ -1,10 +1,10 @@
 package model.api;
 
-import java.util.List;
-
 public interface IEdge extends ICE {
-    List<ICorner> getCorners();
-    void setCorners(List<ICorner> iCorners);
-    String getName();
-    void setName(String name);
+    void setCorner(INode cornerB);
+    void deleteEdge();
+    INode getCornerA();
+    INode getCornerB();
+    void setCornerA(INode cornerA);
+    void setCornerB(INode cornerB);
 }

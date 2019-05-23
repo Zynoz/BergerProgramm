@@ -1,28 +1,54 @@
 package model;
 
-import model.api.ICorner;
+import model.api.INode;
 import model.api.IEdge;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Edge implements IEdge {
 
-    private List<ICorner> corners = new ArrayList<>();
+    private INode cornerA;
+    private INode cornerB;
     private String name;
 
-    public Edge(String name, ICorner... corners) {
+    public Edge(String name, INode cornerA) {
         this.name = name;
-        this.corners.addAll(Arrays.asList(corners));
+        this.cornerA = cornerA;
     }
 
-    public List<ICorner> getCorners() {
-        return corners;
+    public Edge(String name, INode cornerA, INode cornerB) {
+        this.name = name;
+        this.cornerA = cornerA;
+        this.cornerB = cornerB;
     }
 
-    public void setCorners(List<ICorner> corners) {
-        this.corners = corners;
+    @Override
+    public void setCorner(INode corner) {
+        if (cornerA == null) {
+            this.cornerA = corner;
+        } else {
+            this.cornerB = corner;
+        }
+    }
+
+    @Override
+    public void deleteEdge() {
+        cornerA.getEdges().remove(this);
+        cornerB.getEdges().remove(this);
+    }
+
+    public INode getCornerA() {
+        return cornerA;
+    }
+
+    public void setCornerA(INode cornerA) {
+        this.cornerA = cornerA;
+    }
+
+    public INode getCornerB() {
+        return cornerB;
+    }
+
+    public void setCornerB(INode cornerB) {
+        this.cornerB = cornerB;
     }
 
     public String getName() {
@@ -36,7 +62,9 @@ public class Edge implements IEdge {
     @Override
     public String toString() {
         return "Edge{" +
-                "name='" + name + '\'' +
+//                "cornerA=" + cornerA +
+//                ", cornerB=" + cornerB +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

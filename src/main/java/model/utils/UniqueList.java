@@ -35,6 +35,10 @@ public class UniqueList<T extends ICE> {
         return innerList.size();
     }
 
+    public boolean contains(T t) {
+        return masterSet.contains(t);
+    }
+
     public T get(int index) {
         return innerList.get(index);
     }

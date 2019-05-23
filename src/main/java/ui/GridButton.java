@@ -4,7 +4,7 @@ import javafx.scene.control.Button;
 
 public class GridButton extends Button {
     private String name;
-    private boolean isFinal = false;
+    private boolean isFinal;
 
     public GridButton() {
         init();
@@ -20,6 +20,10 @@ public class GridButton extends Button {
     private void init() {
         this.name = "0";
         setText(name);
+        if (isFinal) {
+            this.setDisable(!isFinal);
+            this.setStyle("-fx-background-color: #00ff00");
+        }
     }
 
     private void listener() {
@@ -27,10 +31,6 @@ public class GridButton extends Button {
             invert();
             this.setText(name);
         });
-        if (!isFinal) {
-            this.setDisable(true);
-            this.setStyle("-fx-background-color: #00ff00");
-        }
     }
 
     public void setName(String name) {
@@ -42,7 +42,7 @@ public class GridButton extends Button {
     }
 
     public void invert() {
-        if (isFinal) {
+        if (!isFinal) {
             if (name.equals("1")) {
                 name = "0";
             } else {

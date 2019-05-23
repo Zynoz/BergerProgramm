@@ -16,7 +16,7 @@ public class Main extends Application {
         logger.info("starting application...");
         RootBorderPane root = new RootBorderPane();
         primaryStage.setTitle("Hello Graphs");
-        primaryStage.setScene(new Scene(root, 720, 600));
+        primaryStage.setScene(new Scene(root, 750, 600));
         primaryStage.show();
     }
 

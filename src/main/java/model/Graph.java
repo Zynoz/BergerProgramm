@@ -1,8 +1,9 @@
 package model;
 
-import model.api.ICorner;
+import model.api.INode;
 import model.api.IEdge;
 import model.api.IGraph;
+import model.exception.GraphException;
 import model.utils.UniqueList;
 
 import java.util.ArrayList;
@@ -11,61 +12,52 @@ import java.util.List;
 public class Graph implements IGraph {
 
     private String name;
-    private UniqueList<ICorner> corners;
-    private List<IEdge> edges;
+    private List<INode> corners;
 
     public Graph(String name) {
         this.name = name;
     }
 
-    public Graph(String name, UniqueList<ICorner> corners, List<IEdge> edges) {
+    public Graph(String name, List<INode> corners) {
         this.name = name;
         this.corners = corners;
-        this.edges = edges;
     }
 
-    public List<ICorner> getCoreners() {
-//        return corners;
-        return null;
+    public List<INode> getCorners() {
+        return corners;
     }
 
     public List<IEdge> getEdges() {
-        return edges;
+        UniqueList<IEdge> uniqueEdges = new UniqueList<>();
+        for (INode c : corners) {
+            for (int j = 0; j < c.getEdges().size(); j++) {
+                uniqueEdges.add(c.getEdges().get(j));
+            }
+        }
+        return uniqueEdges.getList();
     }
 
-    public void addCorner(ICorner corner) {
-//        if (corners.contains(corner)) {
-//            throw new GraphException("Corner " + corner + " already in Graph!");
-//        } else {
-//            corners.add(corner);
-//        }
-
-    }
-
-    public void addEdge(IEdge edge, ICorner cornerA, ICorner cornerB) {
-
-    }
-
-    public void removeCorner(ICorner corner) {
-
-    }
-
-    public void removeEdge(IEdge edge) {
+    public void addCorner(INode corner) {
+        if (corners.contains(corner)) {
+            throw new GraphException("Node " + corner + " already in Graph!");
+        } else {
+            corners.add(corner);
+        }
 
     }
 
-    //todo fix this
     @Override
-    public List<ICorner> getAdajacentCorners(ICorner corner) {
-//        List<ICorner> adjacents = new ArrayList<>();
-//        corners.stream().filter(c -> c == corner).forEach(c -> c.getEdges().forEach(e -> adjacents.addAll(e.getCorners())));
-//        return adjacents;
-        return null;
+    public List<INode> getAdajacentCorners(INode corner) {
+        List<INode> adjacents = new ArrayList<>();
+        corners.stream().filter(c -> c == corner).forEach(c -> c.getEdges().forEach(e -> {
+            adjacents.add(e.getCornerA());
+            adjacents.add(e.getCornerB());
+        }));
+        return adjacents;
     }
 
-    //todo fix this
     @Override
-    public List<IEdge> getAdjacentEdges(ICorner corner) {
+    public List<IEdge> getAdjacentEdges(INode corner) {
         return corner.getEdges();
     }
 
@@ -81,17 +73,7 @@ public class Graph implements IGraph {
 
     public void reset() {
         name = "";
-//        corners = new ArrayList<>();
-        edges = new ArrayList<>();
-    }
-
-    @Override
-    public int calculateDiameter() {
-        int max = -1;
-        for (int i = 0; i < corners.size(); i++) {
-
-        }
-        return max;
+        corners = new ArrayList<>();
     }
 
     @Override
@@ -99,7 +81,6 @@ public class Graph implements IGraph {
         return "Graph{" +
                 "name='" + name + '\'' +
                 ", corners=" + corners +
-                ", edges=" + edges +
                 '}';
     }
 }
