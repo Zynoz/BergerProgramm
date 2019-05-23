@@ -14,7 +14,7 @@ public class GraphManagment {
 
     private final Logger logger = LogManager.getLogger(GraphManagment.class);
 
-    private List<Graph> graphs = new ArrayList<>();
+    private Graph graph;
 
     public GraphManagment() {
 

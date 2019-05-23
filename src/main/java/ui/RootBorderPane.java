@@ -3,13 +3,11 @@ package ui;
 import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import model.GraphManagment;
-import model.Matrix;
 import model.utils.MatrixUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Optional;
 
 public class RootBorderPane extends BorderPane {
 
@@ -20,6 +18,8 @@ public class RootBorderPane extends BorderPane {
     private MenuItem createMatrix, printMatrix, exit;
     private MatrixGrid matrixGrid;
     private Buttons buttons;
+
+    private int size;
 
     private GraphManagment gm;
 
@@ -41,7 +41,7 @@ public class RootBorderPane extends BorderPane {
         printMatrix = new MenuItem("printMatrix");
         exit = new MenuItem("Exit");
 
-        matrixGrid = new MatrixGrid(3);
+        matrixGrid = new MatrixGrid(3, true);
         buttons = new Buttons(this);
 
         gm = new GraphManagment();
@@ -68,30 +68,48 @@ public class RootBorderPane extends BorderPane {
     }
 
     private void newMatrix() {
-        TextInputDialog textInputDialog = new TextInputDialog();
-        textInputDialog.setTitle("New Matrix");
-        textInputDialog.setHeaderText("Enter Matrix Size");
-        textInputDialog.setContentText("Size: ");
-        int size;
-        Optional<String> input = textInputDialog.showAndWait();
-        if (input.isPresent()) {
-            try {
-                size = Integer.parseInt(input.get());
-                logger.info("creating new MatrixGrid with size: " + size);
+        Dialog dialog = new Dialog();
+        Button ok = new Button("Ok");
+        Label sizeLabel = new Label("Size: ");
+        Label headerLabel = new Label("Header: ");
+        TextField sizeField = new TextField();
+        ComboBox<String> header = new ComboBox();
 
-                matrixGrid = new MatrixGrid(size);
+        header.getItems().addAll("ABC", "123");
+        header.getSelectionModel().select(0);
+        sizeField.setText(String.valueOf(5));
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+        ok.setOnAction(event -> {
+            try {
+                size = Integer.parseInt(sizeField.getText());
+                if (header.getSelectionModel().getSelectedItem().equals("ABC")) {
+                    matrixGrid = new MatrixGrid(size, false);
+                } else {
+                    matrixGrid = new MatrixGrid(size, true);
+                }
                 setCenter(matrixGrid);
+                dialog.close();
             } catch (NumberFormatException nfe) {
-                logger.error("Not a size: " + input.get());
-                Main.createAlert(Alert.AlertType.ERROR, "That ain't a size!");
+                logger.error("Not a size: " + sizeField.getText());
+                Main.createAlert(Alert.AlertType.ERROR, "That's no valid size!");
             }
-        } else {
-            logger.error("no input");
-            Main.createAlert(Alert.AlertType.ERROR, "Enter a size!");
-        }
+        });
+
+        GridPane gridPane = new GridPane();
+
+        dialog.setTitle("New Matrix");
+
+        gridPane.add(sizeLabel, 0, 0);
+        gridPane.add(sizeField, 0, 1);
+        gridPane.add(headerLabel, 1, 0);
+        gridPane.add(header, 1, 1);
+        gridPane.add(ok, 2, 0);
+
+        dialog.getDialogPane().setContent(gridPane);
+        dialog.showAndWait();
     }
 
-    public GraphManagment getGm() {
+    public GraphManagment getGraphManagment() {
         return gm;
     }
 

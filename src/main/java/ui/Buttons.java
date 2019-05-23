@@ -10,8 +10,6 @@ import model.exception.MatrixException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-
 public class Buttons extends VBox {
 
     private final Logger logger = LogManager.getLogger(Buttons.class);
@@ -54,7 +52,7 @@ public class Buttons extends VBox {
 
     private void apply() {
         try {
-        rootBorderPane.getGm().createGraph(name.getText(), rootBorderPane.getMatrixGrid().getMatrix());
+        rootBorderPane.getGraphManagment().createGraph(name.getText(), rootBorderPane.getMatrixGrid().getMatrix());
         logger.info("matrix is valid");
         } catch (MatrixException me) {
             Main.createAlert(Alert.AlertType.ERROR, me.getMessage());

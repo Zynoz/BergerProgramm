@@ -3,7 +3,6 @@ package model;
 import model.api.ICorner;
 import model.api.IEdge;
 import model.api.IGraph;
-import model.exception.GraphException;
 import model.utils.UniqueList;
 
 import java.util.ArrayList;
