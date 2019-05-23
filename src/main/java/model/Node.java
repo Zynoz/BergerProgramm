@@ -44,7 +44,7 @@ public class Node implements INode {
     @Override
     public String toString() {
         return "Node{" +
-//                "edges=" + edges +
+                "edges=" + edges +
                 ", name='" + name + '\'' +
                 '}';
     }

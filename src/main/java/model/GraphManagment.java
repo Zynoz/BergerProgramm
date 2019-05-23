@@ -33,9 +33,8 @@ public class GraphManagment {
             corners.add(corner);
             for (int j = 0; j < m[i].length; j++) {
                 if (j == 0) continue;
-                logger.info(i + " " + j);
                 if (m[i][j] == 1) {
-                    logger.info("edge at " + i + " " + j);
+                    logger.info("edge between " + MatrixGrid.getXHeader(false).get(i).getText() + " and " + MatrixGrid.getXHeader(false).get(j).getText());
                     Edge edge = new Edge(i + " : " + j, corner);
                     corner.addEdge(edge);
                 }
