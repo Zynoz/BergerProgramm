@@ -62,8 +62,8 @@ public class Edge implements IEdge {
     @Override
     public String toString() {
         return "Edge{" +
-//                "cornerA=" + cornerA +
-//                ", cornerB=" + cornerB +
+                "cornerA=" + cornerA +
+                ", cornerB=" + cornerB +
                 ", name='" + name + '\'' +
                 '}';
     }

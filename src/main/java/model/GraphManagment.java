@@ -20,7 +20,7 @@ public class GraphManagment {
 
     }
 
-    public void createGraph(String name, final Matrix matrix) throws MatrixException{
+    public void createGraph(String name, final Matrix matrix) {
         if (!MatrixUtils.isValidMatrix(matrix)) {
             throw new MatrixException("Matrix not valid!");
         }
@@ -33,10 +33,12 @@ public class GraphManagment {
             corners.add(corner);
             for (int j = 0; j < m[i].length; j++) {
                 if (j == 0) continue;
+                Edge edge;
                 if (m[i][j] == 1) {
                     logger.info("edge between " + MatrixGrid.getXHeader(false).get(i).getText() + " and " + MatrixGrid.getXHeader(false).get(j).getText());
-                    Edge edge = new Edge(i + " : " + j, corner);
+                    edge = new Edge(i + " : " + j, corner);
                     corner.addEdge(edge);
+//                        break inner;
                 }
             }
         }
@@ -55,7 +57,6 @@ public class GraphManagment {
     @Override
     public String toString() {
         return "GraphManagment{" +
-                "logger=" + logger +
                 ", graph=" + graph +
                 '}';
     }

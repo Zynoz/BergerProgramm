@@ -80,7 +80,7 @@ public class Graph implements IGraph {
     public String toString() {
         return "Graph{" +
                 "name='" + name + '\'' +
-                ", corners=" + corners +
+                ", edges=" + getEdges() +
                 '}';
     }
 }

@@ -5,17 +5,23 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import model.GraphManagment;
+import model.utils.ConfigUtils;
 import model.utils.MatrixUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.Properties;
+
+import static org.apache.logging.log4j.core.util.Loader.getClassLoader;
 
 public class RootBorderPane extends BorderPane {
 
     private final Logger logger = LogManager.getLogger(RootBorderPane.class);
 
     private MenuBar menuBar;
-    private Menu matrixMenu, file, settings;
-    private MenuItem createMatrix, printMatrix, exit;
+    private Menu matrixMenu, file, about;
+    private MenuItem createMatrix, printMatrix, exit, info;
     private MatrixGrid matrixGrid;
     private Buttons buttons;
 
@@ -35,11 +41,12 @@ public class RootBorderPane extends BorderPane {
         menuBar = new MenuBar();
         matrixMenu = new Menu("Matrix");
         file = new Menu("File");
-        settings = new Menu("Settings");
+        about = new Menu("About");
 
         createMatrix = new MenuItem("Create new Matrix");
         printMatrix = new MenuItem("printMatrix");
         exit = new MenuItem("Exit");
+        info = new MenuItem("Info");
 
         matrixGrid = new MatrixGrid(3, true);
         buttons = new Buttons(this);
@@ -52,8 +59,9 @@ public class RootBorderPane extends BorderPane {
 
         matrixMenu.getItems().addAll(createMatrix, printMatrix);
         file.getItems().add(exit);
+        about.getItems().add(info);
 
-        menuBar.getMenus().addAll(file, matrixMenu, settings);
+        menuBar.getMenus().addAll(file, matrixMenu, about);
 
         this.setTop(menuBar);
         this.setRight(buttons);
@@ -65,6 +73,25 @@ public class RootBorderPane extends BorderPane {
         createMatrix.setOnAction(event -> newMatrix());
         exit.setOnAction(event -> Platform.exit());
         printMatrix.setOnAction(event -> MatrixUtils.print(matrixGrid.getMatrix()));
+        info.setOnAction(event -> about());
+    }
+
+    private void about() {
+        String artifactID;
+        String version;
+        try {
+            artifactID = ConfigUtils.getProperty(this.getClass(), "artifactId");
+            version = ConfigUtils.getProperty(this.getClass(), "version");
+        } catch (IOException e) {
+            Main.createAlert(Alert.AlertType.ERROR, "Error loading properties file: " + e.getMessage());
+            return;
+        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About");
+        alert.setHeaderText(artifactID + ": " + version);
+        alert.setContentText("Created by Maximilian Moser\nVisit https://github.com/zynoz for more projects");
+        logger.info("showing about alert...");
+        alert.showAndWait();
     }
 
     private void newMatrix() {

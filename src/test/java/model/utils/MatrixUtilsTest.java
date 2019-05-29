@@ -57,4 +57,11 @@ public class MatrixUtilsTest {
         assert(MatrixUtils.isValidSize(10));
         assert(!MatrixUtils.isValidSize(20));
     }
+
+    @org.junit.Test
+    public void arrayToIndex() {
+        logger.info("testing arrayToIndex...");
+        int[][] matrix = new int[4][4];
+
+    }
 }

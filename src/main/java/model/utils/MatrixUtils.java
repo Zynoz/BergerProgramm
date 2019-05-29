@@ -44,4 +44,17 @@ public class MatrixUtils {
             logger.info(sb.toString());
         }
     }
+
+    public static int arrayToIndex(final int[][] matrix, final int x, final int y) {
+        int index = 0;
+        for (int i = 1; i < matrix.length; i++) {
+            for (int j = 1; j < matrix[i].length; j++) {
+                index++;
+                if (i == x && j == y) {
+                    return index;
+                }
+            }
+        }
+        return -1;
+    }
 }

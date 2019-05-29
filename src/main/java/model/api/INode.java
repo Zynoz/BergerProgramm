@@ -6,4 +6,5 @@ public interface INode extends ICE {
     List<IEdge> getEdges();
     void addEdge(IEdge edge);
     void deleteCorner();
+    String getName();
 }
