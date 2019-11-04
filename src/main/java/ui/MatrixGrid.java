@@ -15,6 +15,7 @@ public class MatrixGrid extends GridPane {
     private final Logger logger = LogManager.getLogger(MatrixGrid.class);
 
     private boolean header;
+    private RootBorderPane rootBorderPane;
 
     private int size;
     private List<GridButton> buttons = new ArrayList<>();
@@ -101,7 +102,8 @@ public class MatrixGrid extends GridPane {
         return header ? headersY1 : headersY;
     }
 
-    public MatrixGrid(int size, boolean header) {
+    public MatrixGrid(RootBorderPane rootBorderPane, int size, boolean header) {
+        this.rootBorderPane = rootBorderPane;
         if (size > 15 || size < 2) {
             logger.warn("Size must be between 1 and 16!");
             Main.createAlert(Alert.AlertType.ERROR, "Size must be between 1 and 16!");
@@ -124,12 +126,17 @@ public class MatrixGrid extends GridPane {
             for (int j = 1; j < row; j++) {
                 GridButton gb;
                 if (i == j) {
-                    gb = new GridButton(true);
+                    gb = new GridButton(rootBorderPane, true, i, j);
+                    System.out.println("created final button at " + i + " and " + j);
+                    gb.setDisable(true);
+                    gb.setStyle("-fx-background-color: #00ff00");
                 } else {
-                    gb = new GridButton();
+                    gb = new GridButton(rootBorderPane, i, j);
+                    System.out.println("created non final button at " + i + " and " + j);
                 }
                 buttons.add(gb);
                 this.add(gb, i, j);
+                System.out.println(gb);
             }
         }
     }
@@ -151,21 +158,63 @@ public class MatrixGrid extends GridPane {
         }
     }
 
-    public Matrix getMatrix() {
-        int[][] matrix = new int[size][size];
-        int row = size;
-        int column = size;
-        int cursor = 0;
-        for (int i = 1; i < row; i++) {
-            for (int j = 1; j < column; j++) {
-                try {
-                    matrix[i][j] = Integer.parseInt(buttons.get(cursor).getText());
-                } catch (NumberFormatException nfe) {
-                    matrix[i][j] = -1;
+    private List<GridButton> getUniqueButtons() {
+        List<GridButton> toRemove = new ArrayList<>();
+        for (int i = 0; i < buttons.size(); i++) {
+            for (int j = 0; j < buttons.size(); j++) {
+                if (buttons.get(i).getPosx() == buttons.get(j).getPosx() && buttons.get(i).getPosy() == buttons.get(i).getPosy()) {
+                    toRemove.add(buttons.get(j));
                 }
-                cursor++;
             }
         }
+        buttons.removeAll(toRemove);
+        return buttons;
+    }
+
+    public Matrix getMatrix() {
+        int[][] matrix = new int[size][size];
+        int row = 0;
+        int cursor = 0;
+
+        for (int i = 0; i < buttons.size(); i++) {
+            if (i != 0) {
+                if (row < size - 1) {
+                    row++;
+                } else {
+                    row = 0;
+                    cursor++;
+                }
+//                if (cursor < size - 1) {
+//                    cursor++;
+//                } else {
+//                    cursor = 0;
+//                    row++;
+//                }
+            }
+
+            System.out.println("size: " + size);
+            System.out.println("index: " + i);
+            System.out.println("cursor: " + cursor);
+            System.out.println("row: " + row);
+            System.out.println(buttons.get(i).toString());
+            System.out.println("-----------");
+            matrix[cursor][row] = Integer.parseInt(buttons.get(i).getText());
+        }
+
+//        for (int i = 0; i < row; i++) {
+//            for (int j = 0; j < column; j++) {
+//                if (cursor < row) {
+//                    matrix[i][line] = 0;
+//                }
+//                try {
+//                    matrix[i][j] = Integer.parseInt(buttons.get(cursor).getText());
+//                } catch (NumberFormatException nfe) {
+//                    matrix[i][j] = -1;
+//                }
+//                cursor++;
+//            }
+//            line++;
+//        }
         return new Matrix(matrix);
     }
 
@@ -173,5 +222,26 @@ public class MatrixGrid extends GridPane {
         for (GridButton button : buttons) {
             button.invert();
         }
+    }
+
+    public void changeDiagonal(int posx, int posy, String name) {
+        for (GridButton button : buttons) {
+            if (posx != posy) {
+                if (button.getPosx() == posx && button.getPosy() == posy) {
+                    button.setName(name);
+                }
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("\n");
+        for (GridButton gb : buttons) {
+            sb.append(gb).append("\n");
+        }
+        return "MatrixGrid{" +
+                "buttons=" + sb.toString() +
+                '}';
     }
 }

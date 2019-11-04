@@ -48,7 +48,7 @@ public class RootBorderPane extends BorderPane {
         exit = new MenuItem("Exit");
         info = new MenuItem("Info");
 
-        matrixGrid = new MatrixGrid(3, true);
+        matrixGrid = new MatrixGrid(this, 3, true);
         buttons = new Buttons(this);
 
         gm = new GraphManagment();
@@ -110,9 +110,9 @@ public class RootBorderPane extends BorderPane {
             try {
                 size = Integer.parseInt(sizeField.getText());
                 if (header.getSelectionModel().getSelectedItem().equals("ABC")) {
-                    matrixGrid = new MatrixGrid(size, false);
+                    matrixGrid = new MatrixGrid(this, size, false);
                 } else {
-                    matrixGrid = new MatrixGrid(size, true);
+                    matrixGrid = new MatrixGrid(this, size, true);
                 }
                 setCenter(matrixGrid);
                 dialog.close();
@@ -143,4 +143,6 @@ public class RootBorderPane extends BorderPane {
     public MatrixGrid getMatrixGrid() {
         return matrixGrid;
     }
+
+
 }

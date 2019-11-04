@@ -87,6 +87,7 @@ public class Buttons extends GridPane {
             rootBorderPane.getGraphManagment().createGraph(graphName.getText(), rootBorderPane.getMatrixGrid().getMatrix());
             logger.info(rootBorderPane.getGraphManagment().toString());
             logger.info("matrix is valid");
+            System.out.println(rootBorderPane.getMatrixGrid().toString());
         } catch (MatrixException me) {
             Main.createAlert(Alert.AlertType.ERROR, me.getMessage());
         }
